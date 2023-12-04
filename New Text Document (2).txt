@@ -1,0 +1,80 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WindowsFormsApplication1
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+        private List<Product> products = new List<Product>();
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (txtname.Text != "" && txtprice.Text != "")
+            {
+                string productName = txtname.Text;
+                double productPrice = double.Parse(txtprice.Text);
+
+                Product product = new Product()
+                {
+                    Name = productName,
+                    Price = productPrice
+                };
+                if (products.Count < 10)
+                {
+                    products.Add(product);
+                }
+                else
+                {
+                    MessageBox.Show("Maximum 10 products Allowed");
+                }
+                txtname.Text = "";
+                txtprice.Text = "";
+            }
+            else {
+                MessageBox.Show("Please Enter Your Product Details First");
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (products.Count > 0)
+            {
+                Product cheapestProduct = products[0];
+                Product expensiveProduct = products[0];
+
+                for (int i = 1; i < products.Count; i++)
+                {
+                    if (products[i].Price < cheapestProduct.Price)
+                    {
+                        cheapestProduct = products[i];
+                    }
+                    if (products[i].Price > expensiveProduct.Price)
+                    {
+                        expensiveProduct = products[i];
+                    }
+                }
+                listBox1.Items.Clear();
+                listBox1.Items.Add(("Cheapest Product: "));
+                listBox1.Items.Add(("MostExpensive Product: "));
+            }
+            else {
+                MessageBox.Show("Please Submit Your Product First");
+            }
+        }
+    }
+    public class Product {
+        public string Name { get; set; }
+        public double Price { get; set; }
+    }
+}
